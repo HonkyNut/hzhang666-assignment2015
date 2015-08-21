@@ -1,0 +1,66 @@
+@import model.Message
+@(title: String,email: String,messages: List[Message])
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="utf-8">
+  <title>@title</title>
+  
+	<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+
+	<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+	
+	<script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+
+	<script src="http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+<body>
+  	<div class="container">
+		<h1 class="text-center">Message</h1>
+		<div class="row" style="margin-top:50px">
+			<p class="col-sm-4" style="line-height:50px;"><a href="/messagehall">@email</a><a style="margin-left:30px" href="/logout">Log Out</a></p>
+			<form class="col-sm-3 pull-right" style="height:50px;" method="GET" action="/searchByUsers">
+				<div class="input-group">
+				  <input type="text" class="form-control" name="user" placeholder="Search for Users...">
+				  <span class="input-group-btn">
+					<button class="btn btn-default" type="submit">Go!</button>
+				  </span>
+				</div><!-- /input-group -->
+			</form>
+			<form class="col-sm-3 pull-right" style="height:50px;" method="GET" action="/searchByTags">
+				<div class="input-group">
+				  <input type="text" class="form-control" name="tag" placeholder="Search for Tags...">
+				  <span class="input-group-btn">
+					<button class="btn btn-default" type="submit">Go!</button>
+				  </span>
+				</div><!-- /input-group -->
+			</form>
+		</div>
+		<div class="row">
+			<form method="post" action="/api/postmessage">
+			  <div class="form-group">
+                              <p>Enter #tag for tag a message with a topic(#tag1 #tag2...for multiple topics) </p>
+				<textarea class="form-control" style="height:120px;" id="content" name="content" placeholder="post message"></textarea>
+			  </div>
+			  <button type="submit" class="btn btn-default pull-right">Submit</button>
+			</form>
+		</div>
+		<div class="row">
+			 @for(message <- messages) {
+				<div class="col-sm-12" style="margin-
+:15px;">
+					<label>@message.getUuid()</label><label class="pull-right">@message.getEmail()</label>
+					<p>@message.getContent()</p>
+<div class="tags">
+						 @for(tag <- message.getTags()) {
+							<span class="label label-primary">@tag</span>
+						 }
+					</div>
+				</div>
+			}
+		</div>
+  	</div>
+</body>
+</html>
